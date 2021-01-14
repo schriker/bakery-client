@@ -1,5 +1,67 @@
+import { green, indigo, grey } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme();
+const theme = createMuiTheme({
+  overrides: {
+    MuiListItemIcon: {
+      root: {
+        minWidth: '30px',
+      },
+    },
+    MuiTooltip: {
+      tooltip: {
+        fontSize: 12
+      }
+    }
+  },
+  palette: {
+    background: {
+      default: '#FAFAFA',
+    },
+    primary: indigo,
+    secondary: green,
+    divider: '#ECECEC',
+    action: {
+      hover: '#FAFAFA',
+    },
+    text: {
+      primary: grey[700],
+      secondary: green[700],
+    },
+  },
+  shadows: [
+    'none',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 4px 0px rgba(0,0,0,0.25)',
+    '0px 2px 6px 0px rgba(0,0,0,0.20)',
+    '0px 2px 8px 0px rgba(0,0,0,0.15)',
+    '0px 2px 10px 0px rgba(0,0,0,0.10)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+  ],
+  typography: {
+    fontFamily: ['Arimo', 'sans-serif'].join(', '),
+    h5: {
+      fontWeight: 700,
+    },
+  },
+});
 
 export default theme;

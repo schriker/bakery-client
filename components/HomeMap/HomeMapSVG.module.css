@@ -1,0 +1,10 @@
+.map path:hover {
+  transition: all ease 0.2s;
+  cursor: pointer;
+  fill: #283593;
+}
+
+.active {
+  transition: all ease 0.2s;
+  fill: #283593;
+}
