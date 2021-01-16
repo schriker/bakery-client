@@ -10,9 +10,9 @@ const theme = createMuiTheme({
     },
     MuiTooltip: {
       tooltip: {
-        fontSize: 12
-      }
-    }
+        fontSize: 14,
+      },
+    },
   },
   palette: {
     background: {
@@ -29,6 +29,15 @@ const theme = createMuiTheme({
       secondary: green[700],
     },
   },
+  typography: {
+    fontFamily: ['Arimo', 'sans-serif'].join(', '),
+    h5: {
+      fontWeight: 700,
+    },
+  },
+  shape: {
+    borderRadius: 3,
+  },
   shadows: [
     'none',
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
@@ -36,7 +45,7 @@ const theme = createMuiTheme({
     '0px 2px 6px 0px rgba(0,0,0,0.20)',
     '0px 2px 8px 0px rgba(0,0,0,0.15)',
     '0px 2px 10px 0px rgba(0,0,0,0.10)',
-    '0px 2px 2px 0px rgba(0,0,0,0.25)',
+    '0px 2px 2px 0px rgba(0,0,0,0.08)',
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
@@ -56,12 +65,6 @@ const theme = createMuiTheme({
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
     '0px 2px 2px 0px rgba(0,0,0,0.25)',
   ],
-  typography: {
-    fontFamily: ['Arimo', 'sans-serif'].join(', '),
-    h5: {
-      fontWeight: 700,
-    },
-  },
 });
 
 export default theme;

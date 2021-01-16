@@ -1,4 +1,5 @@
 import { Box, Container } from '@material-ui/core';
+import Search from '../Search/Search';
 
 export default function Navbar() {
   return (
@@ -9,11 +10,13 @@ export default function Navbar() {
           <Box
             height="85px"
             display="grid"
-            gridTemplateColumns="1fr auto 1fr"
+            gridTemplateColumns="auto 1fr auto"
             alignItems="center"
           >
             <Box>Logo</Box>
-            <Box>Wyszukiwarka</Box>
+            <Box mx={5}>
+              <Search />
+            </Box>
             <Box ml="auto">Info</Box>
           </Box>
         </Container>

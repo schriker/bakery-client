@@ -22,7 +22,7 @@ export default function HomeMapSVG({
         xmlns="http://www.w3.org/2000/svg"
       >
         {voivodeships.map((v, index) => (
-          <Tooltip title={v.name} placement="top" key={index}>
+          <Tooltip title={v.name} placement="top" key={index} arrow>
             <path
               onClick={() =>
                 setVoivodeship(voivodeship === v.name ? null : v.name)

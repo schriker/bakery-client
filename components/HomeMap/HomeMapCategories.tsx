@@ -14,14 +14,13 @@ export default function HomeMapCategories() {
   );
 
   return (
-    <Box pr={20}>
+    <Box pr={[0, 0, 5, 10, 15]}>
       <List>
         {categories.map((category) => (
           <ListItem
             divider
             component="a"
             onClick={() => console.log('asd')}
-            dense
             button
             key={category.id}
           >

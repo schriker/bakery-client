@@ -334,6 +334,19 @@ export type CategoriesQuery = (
   )> }
 );
 
+export type SearchCityQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type SearchCityQuery = (
+  { __typename?: 'Query' }
+  & { searchCity: Array<(
+    { __typename?: 'City' }
+    & Pick<City, 'id' | 'name' | 'district' | 'voivodeship'>
+  )> }
+);
+
 
 export const CategoriesDocument = gql`
     query Categories {
@@ -369,3 +382,39 @@ export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
 export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
 export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
+export const SearchCityDocument = gql`
+    query SearchCity($query: String!) {
+  searchCity(query: $query) {
+    id
+    name
+    district
+    voivodeship
+  }
+}
+    `;
+
+/**
+ * __useSearchCityQuery__
+ *
+ * To run a query within a React component, call `useSearchCityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCityQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchCityQuery(baseOptions: Apollo.QueryHookOptions<SearchCityQuery, SearchCityQueryVariables>) {
+        return Apollo.useQuery<SearchCityQuery, SearchCityQueryVariables>(SearchCityDocument, baseOptions);
+      }
+export function useSearchCityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchCityQuery, SearchCityQueryVariables>) {
+          return Apollo.useLazyQuery<SearchCityQuery, SearchCityQueryVariables>(SearchCityDocument, baseOptions);
+        }
+export type SearchCityQueryHookResult = ReturnType<typeof useSearchCityQuery>;
+export type SearchCityLazyQueryHookResult = ReturnType<typeof useSearchCityLazyQuery>;
+export type SearchCityQueryResult = Apollo.QueryResult<SearchCityQuery, SearchCityQueryVariables>;
