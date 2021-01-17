@@ -1,5 +1,8 @@
 import { Box, Container } from '@material-ui/core';
+import { ButtonPrimary } from '../Button/ButtonPrimary';
+import { ButtonText } from '../Button/ButtonText';
 import Search from '../Search/Search';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 export default function Navbar() {
   return (
@@ -17,7 +20,16 @@ export default function Navbar() {
             <Box mx={5}>
               <Search />
             </Box>
-            <Box ml="auto">Info</Box>
+            <Box ml="auto">
+              <ButtonText
+                startIcon={<PersonOutlineIcon />}
+                style={{ marginRight: 20 }}
+                size="large"
+              >
+                Moje konto
+              </ButtonText>
+              <ButtonPrimary size="large">Dodaj ogłoszenie</ButtonPrimary>
+            </Box>
           </Box>
         </Container>
       </Box>

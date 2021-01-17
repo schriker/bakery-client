@@ -40,7 +40,7 @@ const useSearchButtonStyles = makeStyles((theme: Theme) =>
       padding: '8px 10px',
       margin: '-1px',
       '&:hover': {
-        backgroundColor: theme.palette.primary[300],
+        backgroundColor: theme.palette.primary[400],
       },
     },
   })
@@ -62,7 +62,7 @@ export default function Search() {
         ></TextField>
         <Divider orientation="vertical" flexItem />
         <SearchLocationInput />
-        <IconButton className={buttonStyles.root}>
+        <IconButton type="submit" className={buttonStyles.root}>
           <SearchIcon style={{ color: '#fff' }} />
         </IconButton>
       </div>

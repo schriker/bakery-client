@@ -343,7 +343,7 @@ export type SearchCityQuery = (
   { __typename?: 'Query' }
   & { searchCity: Array<(
     { __typename?: 'City' }
-    & Pick<City, 'id' | 'name' | 'district' | 'voivodeship'>
+    & Pick<City, 'id' | 'name' | 'district' | 'voivodeship' | 'latitude' | 'longitude'>
   )> }
 );
 
@@ -389,6 +389,8 @@ export const SearchCityDocument = gql`
     name
     district
     voivodeship
+    latitude
+    longitude
   }
 }
     `;
