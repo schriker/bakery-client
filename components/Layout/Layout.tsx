@@ -1,3 +1,4 @@
+import Footer from '../Footer/Footer';
 import Header, { HeaderPtopsType } from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 
@@ -16,6 +17,7 @@ export default function Layout({
       <Header title={title} ogImage={ogImage} ogDescription={ogDescription} />
       <Navbar />
       {children}
+      <Footer />
     </>
   );
 }

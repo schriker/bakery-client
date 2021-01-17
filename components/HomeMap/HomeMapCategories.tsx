@@ -20,7 +20,6 @@ export default function HomeMapCategories() {
           <ListItem
             divider
             dense
-            component="a"
             onClick={() => console.log('asd')}
             button
             key={category.id}

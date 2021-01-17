@@ -1,3 +1,33 @@
+export const footerLinksColumn1 = [
+  {
+    name: 'Jak to działa',
+    link: '#',
+  },
+  {
+    name: 'Napisz do nas',
+    link: '#',
+  },
+  {
+    name: 'Zgłoś błąd',
+    link: '#',
+  },
+];
+
+export const footerLinksColumn2 = [
+  {
+    name: 'Regulamin',
+    link: '#',
+  },
+  {
+    name: 'Polityka plików "cookies"',
+    link: '#',
+  },
+  {
+    name: 'Dopasowanie reklam',
+    link: '#',
+  },
+];
+
 export const voivodeships = [
   {
     name: 'Podkarpackie',
