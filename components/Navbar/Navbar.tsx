@@ -17,18 +17,19 @@ export default function Navbar() {
             alignItems="center"
           >
             <Box>Logo</Box>
-            <Box mx={5}>
+            <Box mx={2}>
               <Search />
             </Box>
             <Box ml="auto">
               <ButtonText
+                href="#"
                 startIcon={<PersonOutlineIcon />}
-                style={{ marginRight: 20 }}
+                style={{ marginRight: 15 }}
                 size="large"
               >
                 Moje konto
               </ButtonText>
-              <ButtonPrimary size="large">Dodaj ogłoszenie</ButtonPrimary>
+              <ButtonPrimary href="#" size="large">Dodaj ogłoszenie</ButtonPrimary>
             </Box>
           </Box>
         </Container>

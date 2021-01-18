@@ -12,6 +12,10 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
+import { ButtonSocialFooter } from '../Button/ButtonSocialFooter';
+import FacebookIcon from '@material-ui/icons/Facebook';
+import InstagramIcon from '@material-ui/icons/Instagram';
+import TwitterIcon from '@material-ui/icons/Twitter';
 
 const useFooterListClasses = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,6 +73,28 @@ export default function Footer() {
                 </ListItem>
               ))}
             </List>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="h6" component="span">
+              Portale społecznościowe
+            </Typography>
+            <Grid container spacing={2} style={{ marginTop: 0 }}>
+              <Grid item>
+                <ButtonSocialFooter href="https://facebook.com">
+                  <FacebookIcon />
+                </ButtonSocialFooter>
+              </Grid>
+              <Grid item>
+                <ButtonSocialFooter href="https://facebook.com">
+                  <InstagramIcon />
+                </ButtonSocialFooter>
+              </Grid>
+              <Grid item>
+                <ButtonSocialFooter href="https://facebook.com">
+                  <TwitterIcon />
+                </ButtonSocialFooter>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
