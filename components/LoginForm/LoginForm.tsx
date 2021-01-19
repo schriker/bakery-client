@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   LoginMutationVariables,
   useLoginMutation,
-  useMeLazyQuery,
+  useMeQuery,
 } from '../../generated/graphql';
 import InputForm from '../Input/InputForm';
 import { Link as MuiLink, Typography } from '@material-ui/core';
@@ -45,23 +45,29 @@ export default function LoginForm() {
   } = useForm<LoginMutationVariables>({
     resolver: yupResolver(validationSchema),
   });
+  const { data: userData, loading: userLoading, refetch } = useMeQuery();
   const [
-    getCurrentUser,
-    { data: userData, loading: userLoading, error: userError },
-  ] = useMeLazyQuery({
-    errorPolicy: 'all'
-  });
-  const [login, { loading, data, error: serverErrors }] = useLoginMutation({
+    login,
+    { loading: loginLoading, data, error: serverErrors },
+  ] = useLoginMutation({
     errorPolicy: 'all',
   });
 
+  const loading = userLoading || loginLoading;
+
   useEffect(() => {
     if (data?.login) {
-      getCurrentUser();
+      refetch();
     }
   }, [data]);
-  
-  console.log(userData, userLoading, userError);
+
+  useEffect(() => {
+    console.log(userData);
+    if (userData) {
+      console.log('Redirect user here');
+    }
+  }, [userData]);
+
   const onSubmit = (data: LoginMutationVariables) => {
     if (!loading) {
       login({
