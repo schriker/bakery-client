@@ -1,0 +1,8 @@
+export default function mapServerErrorMessage(message: string) {
+  const errors = {
+    "User dosen't exists.": 'Podany użytkownik nie istnieje.',
+    "Wrong password.": "Blędne hasło."
+  };
+
+  return errors[message];
+}

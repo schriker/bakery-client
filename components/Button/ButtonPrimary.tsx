@@ -11,4 +11,7 @@ export const ButtonPrimary = withStyles((theme: Theme) => ({
       backgroundColor: theme.palette.primary[400],
     },
   },
+  disabled: {
+    backgroundColor: theme.palette.grey[300],
+  },
 }))(Button);
