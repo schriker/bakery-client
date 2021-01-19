@@ -1,0 +1,8 @@
+fragment CityParts on City {
+      id
+      name
+      district
+      voivodeship
+      latitude
+      longitude
+}

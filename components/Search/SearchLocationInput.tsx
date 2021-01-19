@@ -115,7 +115,7 @@ export default function SearchLocationInput() {
         <TextField
           {...params}
           style={{
-            minWidth: 200,
+            minWidth: 250,
           }}
           onChange={handleUserInput}
           placeholder="Polska"

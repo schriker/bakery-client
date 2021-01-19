@@ -3,6 +3,19 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        html: {
+          height: '100%',
+        },
+        body: {
+          height: '100%',
+        },
+        '#__next': {
+          height: '100%',
+        },
+      },
+    },
     MuiListItemIcon: {
       root: {
         minWidth: '30px',

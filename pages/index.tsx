@@ -10,7 +10,7 @@ import HomeMap from '../components/HomeMap/HomeMap';
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout fullWidth>
       <HomeMap />
     </Layout>
   );

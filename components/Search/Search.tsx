@@ -37,7 +37,10 @@ const useSearchButtonStyles = makeStyles((theme: Theme) =>
       borderBottomLeftRadius: 0,
       borderTopRightRadius: theme.shape.borderRadius,
       borderBottomRightRadius: theme.shape.borderRadius,
-      padding: '8px 10px',
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+      paddingLeft: theme.spacing(1.25),
+      paddingRight: theme.spacing(1.25),
       margin: '-1px',
       '&:hover': {
         backgroundColor: theme.palette.primary[400],

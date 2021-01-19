@@ -1,10 +1,5 @@
 query SearchCity($query: String!) {
   searchCity(query: $query) {
-    id
-    name
-    district
-    voivodeship
-    latitude
-    longitude
+    ...CityParts
   }
 }

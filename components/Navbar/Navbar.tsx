@@ -3,10 +3,11 @@ import { ButtonPrimary } from '../Button/ButtonPrimary';
 import { ButtonText } from '../Button/ButtonText';
 import Search from '../Search/Search';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <>
+    <Box>
       <Box bgcolor="primary.800" height="5px" />
       <Box bgcolor="common.white" boxShadow={5}>
         <Container>
@@ -29,11 +30,13 @@ export default function Navbar() {
               >
                 Moje konto
               </ButtonText>
-              <ButtonPrimary href="#" size="large">Dodaj ogłoszenie</ButtonPrimary>
+              <Link href="/nowe-ogloszenie" passHref>
+                <ButtonPrimary size="large">Dodaj ogłoszenie</ButtonPrimary>
+              </Link>
             </Box>
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   );
 }

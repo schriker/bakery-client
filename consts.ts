@@ -1,30 +1,30 @@
 export const footerLinksColumn1 = [
   {
     name: 'Jak to działa',
-    link: '#',
+    href: '#',
   },
   {
     name: 'Napisz do nas',
-    link: '#',
+    href: '#',
   },
   {
     name: 'Zgłoś błąd',
-    link: '#',
+    href: '#',
   },
 ];
 
 export const footerLinksColumn2 = [
   {
     name: 'Regulamin',
-    link: '#',
+    href: '#',
   },
   {
     name: 'Polityka plików "cookies"',
-    link: '#',
+    href: '#',
   },
   {
     name: 'Dopasowanie reklam',
-    link: '#',
+    href: '#',
   },
 ];
 
