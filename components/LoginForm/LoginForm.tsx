@@ -13,6 +13,7 @@ import { Link as MuiLink, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import mapServerErrorMessage from '../../helpers/mapServerErrorMessage';
 import ButtonSubmit from '../Button/ButtonSubmit';
+import { useRouter } from 'next/dist/client/router';
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -38,6 +39,7 @@ const fields = [
 ];
 
 export default function LoginForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -62,9 +64,8 @@ export default function LoginForm() {
   }, [data]);
 
   useEffect(() => {
-    console.log(userData);
     if (userData) {
-      console.log('Redirect user here');
+      router.push('/moje-konto')
     }
   }, [userData]);
 

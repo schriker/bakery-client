@@ -1,15 +1,14 @@
-import React from 'react';
 import Layout from '../components/Layout/Layout';
 import { PaperMain } from '../components/Paper/PaperMain';
 import useLoginRedirect from '../hooks/useLoginRedirect';
 
-export default function NewPost() {
+export default function Account() {
   useLoginRedirect();
 
   return (
     <Layout>
       <PaperMain elevation={6} square>
-        asd
+        Moje Konto
       </PaperMain>
     </Layout>
   );
