@@ -1,39 +1,47 @@
 import { Grid } from '@material-ui/core';
-import Link from 'next/link';
-import { ButtonPrimary } from '../components/Button/ButtonPrimary';
 import Layout from '../components/Layout/Layout';
-import LoginForm from '../components/LoginForm/LoginForm';
 import { PaperMain } from '../components/Paper/PaperMain';
 import { TypographyTitle } from '../components/Typography/TypographyTitle';
+import Link from 'next/link';
+import { ButtonPrimary } from '../components/Button/ButtonPrimary';
 import SidePanelList from '../components/SidePanelList/SidePanelList';
+import { TabsMain } from '../components/Tabs/TabsMain';
 
 const list = [
+  'Możliwość zakupu',
+  'Kontakt ze sprzedajcym lub klientem',
   'Darmowe ogłoszenia',
   'System sprzedaży',
   'Prowadzenie magazynu',
   'Błyskawiczne powiadomienia',
 ];
 
-export default function Login() {
+export default function Register() {
   return (
     <Layout>
       <Grid container justify="center" spacing={3}>
         <Grid item xs={8}>
           <PaperMain elevation={6} square>
             <TypographyTitle variant="h6" component="div">
-              Logowanie
+              Rejestracja
             </TypographyTitle>
-            <LoginForm />
+            <TabsMain title="wybor-konta" labels={['Konto Klienta', 'Konto Sprzedawcy']}>
+              <p>Rejestracja 1</p>
+              <p>Rejestracja 2</p>
+            </TabsMain>
           </PaperMain>
         </Grid>
         <Grid item xs={4}>
           <PaperMain elevation={6} square>
             <TypographyTitle variant="h6" component="div">
-              Rejestracja
+              Co daje rejestracja?
             </TypographyTitle>
             <SidePanelList list={list} />
-            <Link href="/rejestracja" passHref>
-              <ButtonPrimary>Załóż konto</ButtonPrimary>
+            <TypographyTitle variant="h6" component="div">
+              Posiadasz już konto?
+            </TypographyTitle>
+            <Link href="/logowanie" passHref>
+              <ButtonPrimary>Zaloguj się</ButtonPrimary>
             </Link>
           </PaperMain>
         </Grid>
