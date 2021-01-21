@@ -1,29 +1,32 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import Link from 'next/link';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  LoginMutationVariables,
-  useLoginMutation,
-  useMeQuery,
+  CreatUserMutationVariables,
+  useCreatUserMutation,
 } from '../../generated/graphql';
 import InputForm from '../Input/InputForm';
-import { Link as MuiLink, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import mapServerErrorMessage from '../../helpers/mapServerErrorMessage';
 import ButtonSubmit from '../Button/ButtonSubmit';
-import { useRouter } from 'next/dist/client/router';
 
 const validationSchema = yup.object().shape({
+  firstName: yup.string().min(2, 'Pole imię jest wymagane.').trim(),
   email: yup
     .string()
     .email('Podaj poprawny email.')
-    .required('Adres email jest wymagany.'),
+    .required('Adres email jest wymagany.')
+    .trim(),
   password: yup.string().min(6, 'Hasło musi zawierać min. 6 znaków.'),
 });
 
 const fields = [
+  {
+    name: 'firstName',
+    label: 'Imię',
+    placeholder: 'Twoje imię',
+    type: 'text',
+  },
   {
     name: 'email',
     label: 'Adres e-mail',
@@ -38,43 +41,20 @@ const fields = [
   },
 ];
 
-export default function LoginForm() {
-  const router = useRouter();
+export default function RegistrationForm() {
   const {
     register,
     handleSubmit,
     errors: formErrors,
-  } = useForm<LoginMutationVariables>({
+  } = useForm<CreatUserMutationVariables>({
     resolver: yupResolver(validationSchema),
   });
-  const { data: userData, loading: userLoading, refetch } = useMeQuery();
-  const [
-    login,
-    { loading: loginLoading, data, error: serverErrors },
-  ] = useLoginMutation({
+  const [createUser, { error: serverErrors }] = useCreatUserMutation({
     errorPolicy: 'all',
   });
 
-  const loading = userLoading || loginLoading;
-
-  useEffect(() => {
-    if (data?.login) {
-      refetch();
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (userData) {
-      router.push('/moje-konto')
-    }
-  }, [userData]);
-
-  const onSubmit = (data: LoginMutationVariables) => {
-    if (!loading) {
-      login({
-        variables: data,
-      });
-    }
+  const onSubmit = (data: CreatUserMutationVariables) => {
+    createUser({ variables: data });
   };
 
   return (
@@ -99,12 +79,7 @@ export default function LoginForm() {
             error={!!formErrors[field.name]}
           />
         ))}
-        <Typography variant="body2" style={{ marginBottom: 10 }}>
-          <Link href="/przypomnij-haslo" passHref>
-            <MuiLink>Zapomniałeś hasła?</MuiLink>
-          </Link>
-        </Typography>
-        <ButtonSubmit>Zaloguj się</ButtonSubmit>
+        <ButtonSubmit>Zarejestruj się</ButtonSubmit>
       </form>
     </>
   );

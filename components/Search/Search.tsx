@@ -9,6 +9,9 @@ import {
 } from '@material-ui/core';
 import SearchLocationInput from './SearchLocationInput';
 import SearchIcon from '@material-ui/icons/Search';
+import { grey } from '@material-ui/core/colors';
+import { LocationOnOutlined } from '@material-ui/icons';
+import { InputAdornment } from '@material-ui/core';
 
 const useSearchWrapperStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,7 +67,30 @@ export default function Search() {
           }}
         ></TextField>
         <Divider orientation="vertical" flexItem />
-        <SearchLocationInput />
+        <SearchLocationInput
+          onSelectOption={(event, value, reason) =>
+            console.log(event, value, reason)
+          }
+          render={(params, handleUserInput) => (
+            <TextField
+              {...params}
+              style={{
+                minWidth: 250,
+              }}
+              onChange={handleUserInput}
+              placeholder="Polska"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position="start" style={{ marginLeft: 5 }}>
+                    <LocationOnOutlined style={{ color: grey[600] }} />
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            ></TextField>
+          )}
+        />
         <IconButton type="submit" className={buttonStyles.root}>
           <SearchIcon style={{ color: '#fff' }} />
         </IconButton>

@@ -1,4 +1,4 @@
-import { FormControl, InputLabel } from '@material-ui/core';
+import { FormControl, InputBaseProps, InputLabel } from '@material-ui/core';
 import React from 'react';
 import { InputMain } from './InputMain';
 
@@ -9,14 +9,16 @@ type RefReturn =
   | null
   | undefined;
 
-type InputFormPropsType = {
+interface InputFormPropsType extends InputBaseProps {
   name: string;
   label: string;
   placeholder: string;
   error: boolean;
   type?: string;
+  passRef?: any;
+  params?: any;
   register: () => RefReturn;
-};
+}
 
 export default function InputForm({
   name,
@@ -25,6 +27,9 @@ export default function InputForm({
   placeholder,
   type = 'text',
   register,
+  passRef,
+  params,
+  ...rest
 }: InputFormPropsType) {
   return (
     <FormControl style={{ width: '100%', margin: '10px 0' }}>
@@ -32,12 +37,16 @@ export default function InputForm({
         {label}
       </InputLabel>
       <InputMain
+        {...rest}
+        ref={passRef}
         error={error}
         inputRef={register}
         name={name}
         id={name}
         type={type}
         placeholder={placeholder}
+        inputProps={params?.inputProps}
+        endAdornment={params?.InputProps.endAdornment}
       />
     </FormControl>
   );

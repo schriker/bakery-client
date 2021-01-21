@@ -63,6 +63,7 @@ export type User = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
   isVerified: Scalars['Boolean'];
   isSeller: Scalars['Boolean'];
   city?: Maybe<City>;
@@ -212,6 +213,7 @@ export type MutationCreateSellerArgs = {
   password: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  phone: Scalars['String'];
   city: Scalars['Float'];
 };
 
@@ -328,6 +330,24 @@ export type CityPartsFragment = (
   & Pick<City, 'id' | 'name' | 'district' | 'voivodeship' | 'latitude' | 'longitude'>
 );
 
+export type CreateSellerMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
+  city: Scalars['Float'];
+}>;
+
+
+export type CreateSellerMutation = (
+  { __typename?: 'Mutation' }
+  & { createSeller: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  ) }
+);
+
 export type CreatUserMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -411,9 +431,53 @@ export const CityPartsFragmentDoc = gql`
   longitude
 }
     `;
+export const CreateSellerDocument = gql`
+    mutation CreateSeller($email: String!, $password: String!, $firstName: String!, $lastName: String!, $phone: String!, $city: Float!) {
+  createSeller(
+    email: $email
+    password: $password
+    firstName: $firstName
+    phone: $phone
+    lastName: $lastName
+    city: $city
+  ) {
+    id
+  }
+}
+    `;
+export type CreateSellerMutationFn = Apollo.MutationFunction<CreateSellerMutation, CreateSellerMutationVariables>;
+
+/**
+ * __useCreateSellerMutation__
+ *
+ * To run a mutation, you first call `useCreateSellerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSellerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSellerMutation, { data, loading, error }] = useCreateSellerMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
+ *      phone: // value for 'phone'
+ *      city: // value for 'city'
+ *   },
+ * });
+ */
+export function useCreateSellerMutation(baseOptions?: Apollo.MutationHookOptions<CreateSellerMutation, CreateSellerMutationVariables>) {
+        return Apollo.useMutation<CreateSellerMutation, CreateSellerMutationVariables>(CreateSellerDocument, baseOptions);
+      }
+export type CreateSellerMutationHookResult = ReturnType<typeof useCreateSellerMutation>;
+export type CreateSellerMutationResult = Apollo.MutationResult<CreateSellerMutation>;
+export type CreateSellerMutationOptions = Apollo.BaseMutationOptions<CreateSellerMutation, CreateSellerMutationVariables>;
 export const CreatUserDocument = gql`
     mutation CreatUser($email: String!, $password: String!, $firstName: String!) {
-  createUser(email: $email, password: $email, firstName: $email) {
+  createUser(email: $email, password: $password, firstName: $firstName) {
     id
   }
 }

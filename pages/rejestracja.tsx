@@ -6,6 +6,10 @@ import Link from 'next/link';
 import { ButtonPrimary } from '../components/Button/ButtonPrimary';
 import SidePanelList from '../components/SidePanelList/SidePanelList';
 import { TabsMain } from '../components/Tabs/TabsMain';
+import RegistrationForm from '../components/RegistrationForm/RegistrationForm';
+import SellerRegistrationForm from '../components/SellerRegistrationForm/SellerRegistrationForm';
+import { useMeQuery } from '../generated/graphql';
+import { useRouter } from 'next/dist/client/router';
 
 const list = [
   'Możliwość zakupu',
@@ -17,6 +21,12 @@ const list = [
 ];
 
 export default function Register() {
+  const { data } = useMeQuery();
+  const router = useRouter();
+  if (data) {
+    router.push('/moje-konto');
+  }
+
   return (
     <Layout>
       <Grid container justify="center" spacing={3}>
@@ -25,9 +35,12 @@ export default function Register() {
             <TypographyTitle variant="h6" component="div">
               Rejestracja
             </TypographyTitle>
-            <TabsMain title="wybor-konta" labels={['Konto Klienta', 'Konto Sprzedawcy']}>
-              <p>Rejestracja 1</p>
-              <p>Rejestracja 2</p>
+            <TabsMain
+              title="wybor-konta"
+              labels={['Konto Klienta', 'Konto Sprzedawcy']}
+            >
+              <RegistrationForm />
+              <SellerRegistrationForm />
             </TabsMain>
           </PaperMain>
         </Grid>
@@ -37,7 +50,11 @@ export default function Register() {
               Co daje rejestracja?
             </TypographyTitle>
             <SidePanelList list={list} />
-            <TypographyTitle variant="h6" component="div">
+            <TypographyTitle
+              variant="h6"
+              component="div"
+              style={{ marginTop: 30 }}
+            >
               Posiadasz już konto?
             </TypographyTitle>
             <Link href="/logowanie" passHref>

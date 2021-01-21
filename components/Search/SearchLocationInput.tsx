@@ -1,12 +1,23 @@
-import { useEffect, useState } from 'react';
-import { createStyles, makeStyles, TextField, Theme } from '@material-ui/core';
-import { InputAdornment } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import Autocomplete, {
+  AutocompleteChangeReason,
+  AutocompleteRenderInputParams,
   createFilterOptions,
 } from '@material-ui/lab/Autocomplete';
-import { grey } from '@material-ui/core/colors';
-import { LocationOnOutlined } from '@material-ui/icons';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { City, useSearchCityLazyQuery } from '../../generated/graphql';
+
+type SearchLocationInputPropsType = {
+  onSelectOption: (
+    event: ChangeEvent<{}>,
+    value: City,
+    reason: AutocompleteChangeReason
+  ) => void;
+  render: (
+    props: AutocompleteRenderInputParams,
+    handleUserInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+  ) => JSX.Element;
+};
 
 const useSearchLocationStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,14 +51,18 @@ const useSearchLocationStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function SearchLocationInput() {
+export default function SearchLocationInput({
+  onSelectOption,
+  render,
+}: SearchLocationInputPropsType) {
   const classes = useSearchLocationStyles();
   const [getCity, { data, loading }] = useSearchCityLazyQuery();
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<City[]>([]);
 
   const filterOptions = createFilterOptions<City>({
-    stringify: (option) => `${option.name} ${option.voivodeship} ${option.district}`,
+    stringify: (option) =>
+      `${option.name} ${option.voivodeship} ${option.district}`,
   });
 
   const handleUserInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +93,7 @@ export default function SearchLocationInput() {
       openText="Otwórz"
       noOptionsText="Brak wyników"
       id="search-autocomplete"
+      onChange={onSelectOption}
       open={open}
       classes={{
         paper: classes.paper,
@@ -111,25 +127,7 @@ export default function SearchLocationInput() {
           </div>
         </div>
       )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          style={{
-            minWidth: 250,
-          }}
-          onChange={handleUserInput}
-          placeholder="Polska"
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start" style={{ marginLeft: 5 }}>
-                <LocationOnOutlined style={{ color: grey[600] }} />
-              </InputAdornment>
-            ),
-            disableUnderline: true,
-          }}
-        ></TextField>
-      )}
+      renderInput={(params) => render(params, handleUserInput)}
     />
   );
 }

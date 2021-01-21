@@ -55,7 +55,7 @@ const useStyledTab = makeStyles((theme: Theme) =>
     selected: {
       color: theme.palette.secondary[500],
       fontWeight: 700,
-    }
+    },
   })
 );
 
@@ -63,6 +63,7 @@ const useStyledTabs = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       borderBottom: '1px solid #e8e8e8',
+      marginBottom: 20
     },
     indicator: {
       backgroundColor: theme.palette.primary[800],

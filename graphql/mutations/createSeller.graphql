@@ -1,0 +1,19 @@
+mutation CreateSeller(
+  $email: String!
+  $password: String!
+  $firstName: String!
+  $lastName: String!
+  $phone: String!
+  $city: Float!
+) {
+  createSeller(
+    email: $email
+    password: $password
+    firstName: $firstName
+    phone: $phone
+    lastName: $lastName
+    city: $city
+  ) {
+    id
+  }
+}
