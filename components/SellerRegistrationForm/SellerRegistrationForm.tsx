@@ -11,7 +11,7 @@ import { Alert, AutocompleteChangeReason } from '@material-ui/lab';
 import mapServerErrorMessage from '../../helpers/mapServerErrorMessage';
 import ButtonSubmit from '../Button/ButtonSubmit';
 import SearchLocationInput from '../../components/Search/SearchLocationInput';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().min(2, 'Pole imię jest wymagane.').trim(),
@@ -27,11 +27,7 @@ const validationSchema = yup.object().shape({
       /^(?:(?:(?:\+|00)?48)|(?:\(\+?48\)))?(?:1[2-8]|2[2-69]|3[2-49]|4[1-68]|5[0-9]|6[0-35-9]|[7-8][1-9]|9[145])\d{7}$/,
       'Podaj poprawny numer telefonu.'
     ),
-  city: yup
-    .number()
-    .required('Wybierz miejscowość.')
-    .positive('Wybierz miejscowość.')
-    .integer('Wybierz miejscowość.'),
+  city: yup.string().required('Wybierz miejscowość.'),
 });
 
 const fields = [
@@ -73,19 +69,26 @@ export default function SellerRegistrationForm() {
     handleSubmit,
     errors: formErrors,
   } = useForm<CreateSellerMutationVariables>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema) as any,
   });
-  const [createSeller, { error: serverErrors }] = useCreateSellerMutation();
+  const [selctedCity, setSelectedCity] = useState<City | null>(null);
+  const [createSeller, { error: serverErrors }] = useCreateSellerMutation({
+    errorPolicy: 'all',
+  });
 
   const onSubmit = (data: CreateSellerMutationVariables) => {
-    createSeller({ variables: data });
+    createSeller({ variables: { ...data, city: selctedCity.id } });
   };
 
   const onCitySelectHandler = (
     event: ChangeEvent<{}>,
     value: City,
     reason: AutocompleteChangeReason
-  ) => {};
+  ) => {
+    if (reason === 'select-option') {
+      setSelectedCity(value);
+    }
+  };
 
   return (
     <>
