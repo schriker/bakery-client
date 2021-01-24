@@ -1,15 +1,15 @@
 import Layout from '../components/Layout/Layout';
-import { PaperMain } from '../components/Paper/PaperMain';
 import useLoginRedirect from '../hooks/useLoginRedirect';
+import UserPanelLayout from '../components/UserPanelLayout/UserPanelLayout';
 
 export default function Account() {
   useLoginRedirect();
 
   return (
     <Layout>
-      <PaperMain elevation={6} square>
-        Moje Konto
-      </PaperMain>
+      <UserPanelLayout>
+        <p>Moje Konto</p>
+      </UserPanelLayout>
     </Layout>
   );
 }

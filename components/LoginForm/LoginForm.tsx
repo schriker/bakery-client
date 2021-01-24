@@ -104,7 +104,7 @@ export default function LoginForm() {
             <MuiLink>Zapomniałeś hasła?</MuiLink>
           </Link>
         </Typography>
-        <ButtonSubmit>Zaloguj się</ButtonSubmit>
+        <ButtonSubmit loading={loginLoading}>Zaloguj się</ButtonSubmit>
       </form>
     </>
   );

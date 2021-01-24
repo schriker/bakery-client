@@ -1,26 +1,40 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from '@material-ui/core';
+import { Alert, AutocompleteChangeReason } from '@material-ui/lab';
+import Link from 'next/link';
+import React, { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import SearchLocationInput from '../../components/Search/SearchLocationInput';
 import {
   City,
   CreateSellerMutationVariables,
   useCreateSellerMutation,
 } from '../../generated/graphql';
-import InputForm from '../Input/InputForm';
-import { Alert, AutocompleteChangeReason } from '@material-ui/lab';
 import mapServerErrorMessage from '../../helpers/mapServerErrorMessage';
 import ButtonSubmit from '../Button/ButtonSubmit';
-import SearchLocationInput from '../../components/Search/SearchLocationInput';
-import React, { ChangeEvent, useState } from 'react';
+import InputForm from '../Input/InputForm';
 
 const validationSchema = yup.object().shape({
-  firstName: yup.string().min(2, 'Pole imię jest wymagane.').trim(),
-  lastName: yup.string().min(2, 'Pole nazwisko jest wymagane.').trim(),
+  firstName: yup
+    .string()
+    .min(2, 'Pole imię jest wymagane.')
+    .max(200, 'Imię zbyt długie.')
+    .trim(),
+  lastName: yup
+    .string()
+    .min(2, 'Pole nazwisko jest wymagane.')
+    .max(200, 'Nazwisko zbyt długie.')
+    .trim(),
   email: yup
     .string()
     .email('Podaj poprawny email.')
+    .max(200, 'Email zbyt długi.')
     .required('Adres email jest wymagany.'),
-  password: yup.string().min(6, 'Hasło musi zawierać min. 6 znaków.'),
+  password: yup
+    .string()
+    .min(6, 'Hasło musi zawierać min. 6 znaków.')
+    .max(200, 'Hasło zbyt długie.'),
   phone: yup
     .string()
     .matches(
@@ -72,7 +86,10 @@ export default function SellerRegistrationForm() {
     resolver: yupResolver(validationSchema) as any,
   });
   const [selctedCity, setSelectedCity] = useState<City | null>(null);
-  const [createSeller, { error: serverErrors }] = useCreateSellerMutation({
+  const [
+    createSeller,
+    { error: serverErrors, data, loading },
+  ] = useCreateSellerMutation({
     errorPolicy: 'all',
   });
 
@@ -103,6 +120,19 @@ export default function SellerRegistrationForm() {
           {mapServerErrorMessage(serverErrors.message)}
         </Alert>
       )}
+      {data?.createSeller.id && (
+        <Alert
+          action={
+            <Link passHref href="/logowanie">
+              <Button component="a" color="inherit" size="small">
+                ZALOGUJ SIĘ
+              </Button>
+            </Link>
+          }
+        >
+          Konto zostało utworzone.
+        </Alert>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <SearchLocationInput
           onSelectOption={(event, value, reason) =>
@@ -129,7 +159,7 @@ export default function SellerRegistrationForm() {
             error={!!formErrors[field.name]}
           />
         ))}
-        <ButtonSubmit>Zarejestruj się</ButtonSubmit>
+        <ButtonSubmit loading={loading}>Zarejestruj się</ButtonSubmit>
       </form>
     </>
   );

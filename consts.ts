@@ -1,3 +1,14 @@
+export const links = {
+  newProduct: '/nowe-ogloszenie',
+  myAccount: '/moje-konto',
+  myProducts: '#',
+  ingredients: '#',
+  userSettings: '#',
+  login: '/logowanie',
+  register: '/rejestracja',
+  messages: '/wiadomosci',
+};
+
 export const footerLinksColumn1 = [
   {
     name: 'Jak to działa',

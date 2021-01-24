@@ -1,5 +1,5 @@
 import Layout from '../components/Layout/Layout';
-import { PaperMain } from '../components/Paper/PaperMain';
+import UserPanelLayout from '../components/UserPanelLayout/UserPanelLayout';
 import useLoginRedirect from '../hooks/useLoginRedirect';
 
 export default function Messages() {
@@ -7,9 +7,9 @@ export default function Messages() {
 
   return (
     <Layout>
-      <PaperMain elevation={6} square>
-        Wiadomosci
-      </PaperMain>
+      <UserPanelLayout>
+        <p>Wiadomości</p>
+      </UserPanelLayout>
     </Layout>
   );
 }

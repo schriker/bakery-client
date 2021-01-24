@@ -1,23 +1,33 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   CreatUserMutationVariables,
   useCreatUserMutation,
 } from '../../generated/graphql';
-import InputForm from '../Input/InputForm';
-import { Alert } from '@material-ui/lab';
 import mapServerErrorMessage from '../../helpers/mapServerErrorMessage';
 import ButtonSubmit from '../Button/ButtonSubmit';
+import InputForm from '../Input/InputForm';
 
 const validationSchema = yup.object().shape({
-  firstName: yup.string().min(2, 'Pole imię jest wymagane.').trim(),
+  firstName: yup
+    .string()
+    .min(2, 'Pole imię jest wymagane.')
+    .max(200, 'Imię zbyt długie.')
+    .trim(),
   email: yup
     .string()
     .email('Podaj poprawny email.')
     .required('Adres email jest wymagany.')
+    .max(200, 'Email zbyt długi.')
     .trim(),
-  password: yup.string().min(6, 'Hasło musi zawierać min. 6 znaków.'),
+  password: yup
+    .string()
+    .min(6, 'Hasło musi zawierać min. 6 znaków.')
+    .max(200, 'Hasło zbyt długie.'),
 });
 
 const fields = [
@@ -49,7 +59,10 @@ export default function RegistrationForm() {
   } = useForm<CreatUserMutationVariables>({
     resolver: yupResolver(validationSchema),
   });
-  const [createUser, { error: serverErrors }] = useCreatUserMutation({
+  const [
+    createUser,
+    { error: serverErrors, data, loading },
+  ] = useCreatUserMutation({
     errorPolicy: 'all',
   });
 
@@ -70,6 +83,19 @@ export default function RegistrationForm() {
           {mapServerErrorMessage(serverErrors.message)}
         </Alert>
       )}
+      {data?.createUser.id && (
+        <Alert
+          action={
+            <Link passHref href="/logowanie">
+              <Button component="a" color="inherit" size="small">
+                ZALOGUJ SIĘ
+              </Button>
+            </Link>
+          }
+        >
+          Konto zostało utworzone.
+        </Alert>
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         {fields.map((field, index) => (
           <InputForm
@@ -79,7 +105,7 @@ export default function RegistrationForm() {
             error={!!formErrors[field.name]}
           />
         ))}
-        <ButtonSubmit>Zarejestruj się</ButtonSubmit>
+        <ButtonSubmit loading={loading}>Zarejestruj się</ButtonSubmit>
       </form>
     </>
   );
