@@ -2,7 +2,7 @@ import { FormControl, InputBaseProps, InputLabel } from '@material-ui/core';
 import React from 'react';
 import { InputMain } from './InputMain';
 
-type RefReturn =
+export type RefReturn =
   | string
   | ((instance: HTMLInputElement | null) => void)
   | React.RefObject<HTMLInputElement>
@@ -46,6 +46,7 @@ export default function InputForm({
         type={type}
         placeholder={placeholder}
         inputProps={params?.inputProps}
+        startAdornment={params?.InputProps.startAdornment}
         endAdornment={params?.InputProps.endAdornment}
       />
     </FormControl>

@@ -10,6 +10,7 @@ import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import DescriptionOutlinedIcon from '@material-ui/icons/DescriptionOutlined';
 import ViewQuiltOutlinedIcon from '@material-ui/icons/ViewQuiltOutlined';
+import BarChartOutlinedIcon from '@material-ui/icons/BarChartOutlined';
 
 const userAccountLinks: UserPanelSideBarSectionLink[] = [
   {
@@ -25,6 +26,11 @@ const userAccountLinks: UserPanelSideBarSectionLink[] = [
 ];
 
 const userProductsLinks: UserPanelSideBarSectionLink[] = [
+  {
+    title: 'Moja sprzedaż',
+    icon: <BarChartOutlinedIcon fontSize="small" />,
+    href: links.myAccount,
+  },
   {
     title: 'Dodaj produkt',
     icon: <AddCircleOutlineOutlinedIcon fontSize="small" />,

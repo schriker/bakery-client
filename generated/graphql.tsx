@@ -98,6 +98,7 @@ export type Product = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   name: Scalars['String'];
+  slug: Scalars['String'];
   price: Scalars['Float'];
   count: Scalars['Int'];
   isPublished: Scalars['Boolean'];
@@ -131,9 +132,9 @@ export type Query = {
   ingredients: Array<Ingredient>;
   products: Array<Product>;
   getUserProducts: Array<Product>;
+  categories: Array<Category>;
   getUserMessages: Array<Message>;
   getConversation: Conversation;
-  categories: Array<Category>;
 };
 
 
@@ -257,6 +258,7 @@ export type MutationCreateProductArgs = {
   delivery?: Maybe<Scalars['Boolean']>;
   shipping?: Maybe<Scalars['Boolean']>;
   pickup?: Maybe<Scalars['Boolean']>;
+  category: Scalars['Int'];
   photos?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -269,6 +271,7 @@ export type MutationUpdateProductArgs = {
   delivery?: Maybe<Scalars['Boolean']>;
   shipping?: Maybe<Scalars['Boolean']>;
   pickup?: Maybe<Scalars['Boolean']>;
+  category: Scalars['Int'];
   photos?: Maybe<Array<Scalars['Int']>>;
   id: Scalars['Int'];
 };
@@ -328,6 +331,27 @@ export type Subscription = {
 export type CityPartsFragment = (
   { __typename?: 'City' }
   & Pick<City, 'id' | 'name' | 'district' | 'voivodeship' | 'latitude' | 'longitude'>
+);
+
+export type CreateProductMutationVariables = Exact<{
+  name: Scalars['String'];
+  price: Scalars['Float'];
+  count: Scalars['Float'];
+  isPublished?: Maybe<Scalars['Boolean']>;
+  delivery?: Maybe<Scalars['Boolean']>;
+  shipping?: Maybe<Scalars['Boolean']>;
+  pickup?: Maybe<Scalars['Boolean']>;
+  category: Scalars['Int'];
+  photos?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+
+export type CreateProductMutation = (
+  { __typename?: 'Mutation' }
+  & { createProduct: (
+    { __typename?: 'Product' }
+    & Pick<Product, 'slug'>
+  ) }
 );
 
 export type CreateSellerMutationVariables = Exact<{
@@ -431,6 +455,56 @@ export const CityPartsFragmentDoc = gql`
   longitude
 }
     `;
+export const CreateProductDocument = gql`
+    mutation createProduct($name: String!, $price: Float!, $count: Float!, $isPublished: Boolean, $delivery: Boolean, $shipping: Boolean, $pickup: Boolean, $category: Int!, $photos: [Int!]) {
+  createProduct(
+    name: $name
+    price: $price
+    count: $count
+    isPublished: $isPublished
+    delivery: $delivery
+    shipping: $shipping
+    pickup: $pickup
+    category: $category
+    photos: $photos
+  ) {
+    slug
+  }
+}
+    `;
+export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
+
+/**
+ * __useCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      price: // value for 'price'
+ *      count: // value for 'count'
+ *      isPublished: // value for 'isPublished'
+ *      delivery: // value for 'delivery'
+ *      shipping: // value for 'shipping'
+ *      pickup: // value for 'pickup'
+ *      category: // value for 'category'
+ *      photos: // value for 'photos'
+ *   },
+ * });
+ */
+export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
+        return Apollo.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, baseOptions);
+      }
+export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
+export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
+export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const CreateSellerDocument = gql`
     mutation CreateSeller($email: String!, $password: String!, $firstName: String!, $lastName: String!, $phone: String!, $city: Float!) {
   createSeller(

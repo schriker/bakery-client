@@ -7,9 +7,7 @@ export default function Account() {
 
   return (
     <Layout>
-      <UserPanelLayout>
-        <p>Moje Konto</p>
-      </UserPanelLayout>
+      <UserPanelLayout>Moje Konto</UserPanelLayout>
     </Layout>
   );
 }

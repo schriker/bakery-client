@@ -1,0 +1,25 @@
+mutation createProduct(
+  $name: String!
+  $price: Float!
+  $count: Float!
+  $isPublished: Boolean
+  $delivery: Boolean
+  $shipping: Boolean
+  $pickup: Boolean
+  $category: Int!
+  $photos: [Int!]
+) {
+  createProduct(
+    name: $name
+    price: $price
+    count: $count
+    isPublished: $isPublished
+    delivery: $delivery
+    shipping: $shipping
+    pickup: $pickup
+    category: $category
+    photos: $photos
+  ) {
+    slug
+  }
+}

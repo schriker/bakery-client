@@ -1,4 +1,4 @@
-import { green, indigo, grey } from '@material-ui/core/colors';
+import { green, indigo, grey, red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -33,6 +33,7 @@ const theme = createMuiTheme({
     },
     primary: indigo,
     secondary: green,
+    error: red,
     divider: '#ECECEC',
     action: {
       hover: '#FAFAFA',
