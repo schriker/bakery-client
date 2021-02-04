@@ -1,17 +1,14 @@
-import { List, ListItem, ListItemIcon, ListItemText, Box } from '@material-ui/core';
-import { useCategoriesQuery } from '../../generated/graphql';
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Box,
+} from '@material-ui/core';
+import useCategoires from '../../hooks/useCategories';
 
 export default function HomeMapCategories() {
-  const { data } = useCategoriesQuery();
-
-  const categories = [...data.categories];
-
-  categories.push(
-    categories.splice(
-      categories.findIndex((category) => category.name == 'Pozostałe'),
-      1
-    )[0]
-  );
+  const categories = useCategoires();
 
   return (
     <Box pr={[0, 0, 5, 10, 15]}>

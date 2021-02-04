@@ -1,94 +1,9 @@
-import {
-  Box,
-  CircularProgress,
-  createStyles,
-  IconButton,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import { Box, CircularProgress, IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React, { useState } from 'react';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
-
-const usePhotoUploadStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    disabled: {
-      cursor: 'initial',
-      color: `${theme.palette.grey[100]} !important`,
-      backgroundColor: `${theme.palette.grey[300]} !important`
-    },
-    box: {
-      position: 'relative',
-      height: 100,
-      backgroundColor: theme.palette.primary[100],
-      borderRadius: theme.shape.borderRadius,
-      transition: theme.transitions.create(['background-color']),
-      '& button': {
-        opacity: 0,
-      },
-      '&:hover': {
-        backgroundColor: theme.palette.primary[200],
-        '& img': {
-          opacity: 0.5,
-        },
-        '& button': {
-          opacity: 1,
-        },
-      },
-    },
-    input: {
-      visibility: 'hidden',
-    },
-    label: {
-      zIndex: 998,
-      position: 'relative',
-      display: 'block',
-      width: '100%',
-      height: '100%',
-      cursor: 'pointer',
-    },
-    preview: {
-      width: 'auto',
-      height: 'auto',
-      maxHeight: '100%',
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      borderRadius: theme.shape.borderRadius,
-      transition: theme.transitions.create(['opacity']),
-    },
-    progress: {
-      zIndex: 999,
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginTop: -20,
-      marginLeft: -20,
-    },
-    icon: {
-      color: theme.palette.primary[400],
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-    },
-    delete: {
-      backgroundColor: 'white',
-      color: theme.palette.grey[600],
-      position: 'absolute',
-      zIndex: 999,
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      transition: theme.transitions.create(['opacity']),
-      '&:hover': {
-        backgroundColor: 'white',
-      },
-    },
-  })
-);
+import React, { useState } from 'react';
+import usePhotoUploadStyles from './PhotoUpload.styles';
 
 type PhotoUploadPropsType = {
   errorHandler: (message: string) => void;
@@ -158,8 +73,16 @@ export default function PhotoUpload({
   };
 
   return (
-    <Box className={disabled ? `${classes.box} ${classes.disabled}` : classes.box}>
-      {!loading && !id && <PhotoCameraIcon className={disabled ? `${classes.icon} ${classes.disabled}` : classes.icon} />}
+    <Box
+      className={disabled ? `${classes.box} ${classes.disabled}` : classes.box}
+    >
+      {!loading && !id && (
+        <PhotoCameraIcon
+          className={
+            disabled ? `${classes.icon} ${classes.disabled}` : classes.icon
+          }
+        />
+      )}
       {loading && (
         <CircularProgress
           className={classes.progress}

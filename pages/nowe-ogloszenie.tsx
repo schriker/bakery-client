@@ -2,13 +2,20 @@ import { TypographyTitle } from '../components/Typography/TypographyTitle';
 import React from 'react';
 import Layout from '../components/Layout/Layout';
 import UserPanelLayout from '../components/UserPanelLayout/UserPanelLayout';
-import { useMeQuery } from '../generated/graphql';
+import {
+  CategoriesDocument,
+  CategoriesQuery,
+  CategoriesQueryVariables,
+  useMeQuery,
+} from '../generated/graphql';
 import useLoginRedirect from '../hooks/useLoginRedirect';
 import { Grid, Typography } from '@material-ui/core';
 import { ButtonPrimary } from '../components/Button/ButtonPrimary';
 import Link from 'next/link';
 import { links } from '../consts';
 import NewProductForm from '../components/NewProductForm/NewProductForm';
+import { GetStaticProps } from 'next';
+import { initializeApollo, addApolloState } from '../lib/apolloClient';
 
 export default function NewPost() {
   useLoginRedirect();
@@ -47,3 +54,16 @@ export default function NewPost() {
     </Layout>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query<CategoriesQuery, CategoriesQueryVariables>({
+    query: CategoriesDocument,
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+    revalidate: 60,
+  });
+};
