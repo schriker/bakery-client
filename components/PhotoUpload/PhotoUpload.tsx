@@ -3,58 +3,65 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDeletePhotoMutation } from '../../generated/graphql';
 import usePhotoUploadStyles from './PhotoUpload.styles';
 
 type PhotoUploadPropsType = {
   errorHandler: (message: string) => void;
-  onCompleted: (id: number) => void;
-  removePhoto: (id: number) => void;
-  disabled: boolean;
+  onCompleted: (id: number, image: string, index: number) => void;
+  removePhoto: (id: number, index: number) => void;
+  image: string | null;
+  id: number;
+  index: number;
 };
 
 export default function PhotoUpload({
   errorHandler,
   onCompleted,
   removePhoto,
-  disabled,
+  image,
+  id,
+  index,
 }: PhotoUploadPropsType) {
   const classes = usePhotoUploadStyles();
-  const [image, setImage] = useState<string | null>(null);
+  const [deletePhotoFromServer] = useDeletePhotoMutation({
+    errorPolicy: 'ignore',
+  });
+  const [imageFile, setImageFile] = useState<string | null>(image);
   const [loading, setLoading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [id, setId] = useState<number>(0);
 
   const onFileSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       if (event.target.files[0].size < 5000000) {
+        let test = '';
         setLoading(true);
         const reader = new FileReader();
         const formData = new FormData();
         formData.append('file', event.target.files[0]);
         reader.readAsDataURL(event.target.files[0]);
-        reader.onload = (event: ProgressEvent<FileReader>) => {
-          setImage(event.target.result as string);
+        reader.onload = async (event: ProgressEvent<FileReader>) => {
+          test = event.target.result as string;
+          setImageFile(test);
+          const result = await axios.post(
+            `${process.env.NEXT_PUBLIC_API}/upload`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+              withCredentials: true,
+              onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round(
+                  (progressEvent.loaded * 100) / progressEvent.total
+                );
+                setUploadProgress(percentCompleted);
+              },
+            }
+          );
+          setLoading(false);
+          onCompleted(result.data.id, test, index);
         };
-        const result = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/upload`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: true,
-            onUploadProgress: (progressEvent) => {
-              const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
-              );
-              setUploadProgress(percentCompleted);
-            },
-          }
-        );
-        setLoading(false);
-        setId(result.data.id);
-        console.log(result.data);
-        onCompleted(result.data.id);
       } else {
         errorHandler('Maksymalny rozmiar zdjęcia to 5MB.');
       }
@@ -65,24 +72,18 @@ export default function PhotoUpload({
   };
 
   const onRemovePhoto = () => {
-    // Remove from servere here too
-    console.log(id);
-    setId(0);
-    setImage(null);
-    removePhoto(id);
+    setImageFile(null);
+    deletePhotoFromServer({
+      variables: {
+        id: id,
+      },
+    });
+    removePhoto(id, index);
   };
 
   return (
-    <Box
-      className={disabled ? `${classes.box} ${classes.disabled}` : classes.box}
-    >
-      {!loading && !id && (
-        <PhotoCameraIcon
-          className={
-            disabled ? `${classes.icon} ${classes.disabled}` : classes.icon
-          }
-        />
-      )}
+    <Box className={classes.box}>
+      {!loading && !id && <PhotoCameraIcon className={classes.icon} />}
       {loading && (
         <CircularProgress
           className={classes.progress}
@@ -90,15 +91,15 @@ export default function PhotoUpload({
           value={uploadProgress}
         />
       )}
-      {image && (
+      {imageFile && (
         <img
           style={{ opacity: loading ? 0.3 : null }}
           className={classes.preview}
-          src={image}
+          src={imageFile}
           alt=""
         />
       )}
-      {!id && !disabled && (
+      {!id && (
         <label className={classes.label}>
           <input
             onChange={onFileSelected}

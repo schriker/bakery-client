@@ -88,10 +88,17 @@ const inputFields = [
   },
 ];
 
+type PhotoType = {
+  id: number;
+  image: string | null;
+};
+
 export default function NewProductForm() {
   const categories = useCategoires();
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const [photos, setPhotos] = useState<number[]>([]);
+  const [photos, setPhotos] = useState<PhotoType[]>(
+    Array(8).fill({ id: 0, image: null })
+  );
   const [isWithErrors, setWithErrors] = useState<boolean>(false);
 
   const {
@@ -111,14 +118,21 @@ export default function NewProductForm() {
 
   useEffect(() => {
     if (Object.values(formErrors).length || serverErrors) {
-      console.log(formErrors, serverErrors);
       setWithErrors(true);
     }
   }, [formErrors, serverErrors]);
 
   const onSubmit = (data: CreateProductMutationVariables) => {
     console.log(data);
+    createProduct({
+      variables: {
+        ...data,
+        photos: photos.map(photo => photo.id).filter(id => id !== 0)
+      }
+    });
   };
+
+  console.log(data);
 
   return (
     <>
@@ -174,18 +188,26 @@ export default function NewProductForm() {
           </Alert>
         )}
         <Grid container spacing={1}>
-          {[...Array(8)].map((_, index) => (
+          {photos.map((photo, index) => (
             <Grid item xs={3} key={index}>
               <PhotoUpload
-                disabled={index > photos.length}
-                removePhoto={(id) =>
-                  setPhotos((prevState) =>
-                    prevState.filter((photo) => photo !== id)
-                  )
+                image={photo.image}
+                id={photo.id}
+                index={index}
+                removePhoto={(id, index) =>
+                  setPhotos((prevState) => {
+                    const newPhotos = [...prevState];
+                    newPhotos[index] = { id: 0, image: null };
+                    return newPhotos;
+                  })
                 }
                 errorHandler={(message) => setUploadError(message)}
-                onCompleted={(id) =>
-                  setPhotos((prevState) => [...prevState, id])
+                onCompleted={(id, image, index) =>
+                  setPhotos((prevState) => {
+                    const newPhotos = [...prevState];
+                    newPhotos[index] = { id, image };
+                    return newPhotos;
+                  })
                 }
               />
             </Grid>

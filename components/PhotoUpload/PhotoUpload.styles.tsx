@@ -2,11 +2,6 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 
 const usePhotoUploadStyles = makeStyles((theme: Theme) =>
   createStyles({
-    disabled: {
-      cursor: 'initial',
-      color: `${theme.palette.grey[400]} !important`,
-      backgroundColor: `${theme.palette.grey[200]} !important`,
-    },
     box: {
       position: 'relative',
       height: 100,
